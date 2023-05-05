@@ -11,5 +11,7 @@
 </template>
 
 <style lang="scss" scoped>
-
+  div{
+    margin: 50px;
+  }
 </style>
