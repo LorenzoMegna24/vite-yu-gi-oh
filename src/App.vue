@@ -18,19 +18,42 @@
       }
     },
     created(){
-      this.callApi(),
+      this.callApi,
       this.apiType()
     },
-    methods:{
+    computed:{
       callApi(){
-        axios.get( 'https://db.ygoprodeck.com/api/v7/cardinfo.php?num=30&offset=3' ).then((res)=>{
-          console.log(res.data.data);
+        //axios.get( 'https://db.ygoprodeck.com/api/v7/cardinfo.php?num=100&offset=3' ).then((res)=>{
+          // console.log(res.data.data);
 
-          const datiApi = res.data.data
+          // const datiApi = res.data.data
 
-          this.store.arrayCarte = datiApi
-        })
+          // this.store.arrayCarte = datiApi
+         
+        //})
+
+        if (store.RicercaCarte !== '') {
+            axios.get( `https://db.ygoprodeck.com/api/v7/cardinfo.php?archetype=${store.RicercaCarte}` ).then((res)=>{
+              
+              const datiApi = res.data.data
+
+              this.store.arrayCarte = datiApi
+            })
+            
+          }else{
+            axios.get( 'https://db.ygoprodeck.com/api/v7/cardinfo.php?num=100&offset=3' ).then((res)=>{
+              console.log(res.data.data);
+
+             const datiApi = res.data.data
+
+             this.store.arrayCarte = datiApi
+         
+          })
+          }
       },
+    },
+    methods:{
+     
       apiType(){
         axios.get( 'https://db.ygoprodeck.com/api/v7/archetypes.php' ).then((res)=>{
           console.log(res.data);
