@@ -3,12 +3,14 @@
   import {store} from './store'
   import HeaderComp from './components/HeaderComp.vue';
   import CardsComp from './components/CardsComp.vue';
+  import SearchComp from './components/SearchComp.vue'
 
   export default{
     name: 'App',
     components:{
       HeaderComp,
       CardsComp,
+      SearchComp
     },
     data(){
       return{
@@ -16,7 +18,8 @@
       }
     },
     created(){
-      this.callApi()
+      this.callApi(),
+      this.apiType()
     },
     methods:{
       callApi(){
@@ -27,6 +30,16 @@
 
           this.store.arrayCarte = datiApi
         })
+      },
+      apiType(){
+        axios.get( 'https://db.ygoprodeck.com/api/v7/archetypes.php' ).then((res)=>{
+          console.log(res.data);
+
+          const datiType = res.data
+
+          this.store.arrayType = datiType
+          
+        })
       }
     }
   }
@@ -34,6 +47,7 @@
 
 <template>
  <HeaderComp/>
+ <SearchComp @nomeEmit="callApi"/>
  <main class="container">
   <CardsComp/>
  </main>
